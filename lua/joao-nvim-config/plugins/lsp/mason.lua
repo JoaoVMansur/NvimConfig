@@ -28,7 +28,6 @@ mason_lspconfig.setup({
 		"jdtls",
 		"tsserver",
 		"pyright",
-		"rubocop",
 		"html",
 		"cssls",
 		"lua_ls",
@@ -40,6 +39,7 @@ mason_null_ls.setup({
 	-- list of formatters & linters for mason to install
 	ensure_installed = {
 		"prettier",
+		"rubocop",
 		"black",
 		"stylua", -- lua formatter
 		"eslint_d", -- ts/js linter

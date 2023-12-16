@@ -1,25 +1,12 @@
 -- import lspconfig plugin safely
-local lspconfig_status, lspconfig = pcall(require, "lspconfig")
-if not lspconfig_status then
-	return
-end
+local lsp = require("lsp-zero")
 
--- import cmp-nvim-lsp plugin safely
-local cmp_nvim_lsp_status, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
-if not cmp_nvim_lsp_status then
-	return
-end
+lsp.on_attach(function(client, bufnr)
+	lsp.default_keymaps({ buffer = bufnr })
 
--- import typescript plugin safely
-local typescript_setup, typescript = pcall(require, "typescript")
-if not typescript_setup then
-	return
-end
+	local keymap = vim.keymap -- for conciseness
 
-local keymap = vim.keymap -- for conciseness
-
--- enable keybinds only for when lsp server available
-local on_attach = function(client, bufnr)
+	-- enable keybinds only for when lsp server available
 	-- keybind options
 	local opts = { noremap = true, silent = true, buffer = bufnr }
 
@@ -43,82 +30,27 @@ local on_attach = function(client, bufnr)
 		keymap.set("n", "<leader>oi", ":TypescriptOrganizeImports<CR>") -- organize imports (not in youtube nvim video)
 		keymap.set("n", "<leader>ru", ":TypescriptRemoveUnused<CR>") -- remove unused variables (not in youtube nvim video)
 	end
-end
+end)
 
 --used to enable autocompletion (assing to every  lsp server config)
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
-lspconfig["html"].setup({
-	capabilities = capabilities,
-	on_attach = on_attach,
-})
+require("mason").setup({})
+require("mason-lspconfig").setup({
 
-typescript.setup({
-	server = {
-		capabilities = capabilities,
-		on_attach = on_attach,
+	ensure_installed = {
+		"dockerls",
+		"docker_compose_language_service",
+		"gopls",
+		"jdtls",
+		"tsserver",
+		"pyright",
+		"rubocop",
+		"html",
+		"cssls",
+		"lua_ls",
 	},
-})
-
-lspconfig["cssls"].setup({
-	capabilities = capabilities,
-	on_attach = on_attach,
-})
-
-lspconfig["dockerls"].setup({
-	capabilities = capabilities,
-	on_attach = on_attach,
-})
-
-lspconfig["gopls"].setup({
-	capabilities = capabilities,
-	on_attach = on_attach,
-	cmd = { "gopls" },
-	filetype = { "go", "gomod", "gowork", "gotmpl" },
-})
-
-lspconfig["jdtls"].setup({
-	capabilities = capabilities,
-	on_attach = on_attach,
-})
-
-lspconfig["pyright"].setup({
-	on_attach = on_attach,
-	capabilities = capabilities,
-	settings = {
-		pyright = { autoImportCompletion = true },
-		python = {
-			analysis = {
-				autoSearchPaths = true,
-				diagnosticMode = "openFilesOnly",
-				useLibraryCodeForTypes = true,
-				typeCheckingMode = "off",
-			},
-		},
-	},
-})
-
-lspconfig["rubocop"].setup({
-	capabilities = capabilities,
-	on_attach = on_attach,
-})
-
-lspconfig["lua_ls"].setup({
-	capabilities = capabilities,
-	on_attach = on_attach,
-	settings = { -- custom settings for lua
-		Lua = {
-			-- make the language server recognize "vim" global
-			diagnostics = {
-				globals = { "vim" },
-			},
-			workspace = {
-				-- make language server aware of runtime files
-				library = {
-					[vim.fn.expand("$VIMRUNTIME/lua")] = true,
-					[vim.fn.stdpath("config") .. "/lua"] = true,
-				},
-			},
-		},
+	handlers = {
+		lsp.default_setup,
 	},
 })
