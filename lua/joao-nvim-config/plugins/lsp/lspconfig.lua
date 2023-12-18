@@ -49,6 +49,7 @@ require("mason-lspconfig").setup({
 		"html",
 		"cssls",
 		"lua_ls",
+		"solargraph",
 	},
 	handlers = {
 		lsp.default_setup,
