@@ -31,7 +31,7 @@ mason_lspconfig.setup({
 		"html",
 		"cssls",
 		"lua_ls",
-		"solargraph",
+		"tsserver",
 	},
 	automatic_installation = true, -- not the same as ensure_installed
 })
