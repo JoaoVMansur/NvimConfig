@@ -5,9 +5,6 @@ local keymap = vim.keymap
 -- delete single character without copying into register
 keymap.set("n", "x", '"_x')
 
--- increment/decrement numbers
-keymap.set("n", "<leader>+", "<C-a>") -- increment
-keymap.set("n", "<leader>-", "<C-x>") -- decrement
 
 --window management
 keymap.set("n", "<leader>sv", "<C-w>v") -- split window vertically
@@ -41,4 +38,7 @@ keymap.set("n", "<C-d>", "<C-d>zz")
 keymap.set("n", "<C-u>", "<C-u>zz")
 
 keymap.set("n", "n", "nzzzv")
-keymap.set("n", "N", "nzzzv")
+keymap.set("n", "N", "Nzzzv")
+
+keymap.set("n", "<leader>y", "\"+y")
+

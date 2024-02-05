@@ -32,6 +32,7 @@ mason_lspconfig.setup({
 		"cssls",
 		"lua_ls",
 		"tsserver",
+		"rust_analyzer",
 	},
 	automatic_installation = true, -- not the same as ensure_installed
 })
